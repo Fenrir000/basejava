@@ -1,3 +1,5 @@
+package com.urise.webapp.storage;
+
 /**
  * Array based storage for Resumes
  */
@@ -7,7 +9,7 @@ public class ArrayStorage {
     private int size;
 
     void clear() {
-        for (int i = 0; i < size(); i++) {
+        for (int i = 0; i < size; i++) {
             storage[i] = null;
         }
         size = 0;
@@ -52,7 +54,7 @@ public class ArrayStorage {
      */
     Resume[] getAll() {
         Resume[] resumes = new Resume[size];
-        for (int i = 0; i < size(); i++) {
+        for (int i = 0; i < size; i++) {
             resumes[i] = storage[i];
         }
         return resumes;
