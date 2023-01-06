@@ -10,7 +10,7 @@ public class ArrayStorage {
     private Resume[] storage = new Resume[10000];
     private int size;
 
-   public void clear() {
+    public void clear() {
         for (int i = 0; i < size; i++) {
             storage[i] = null;
         }
@@ -19,36 +19,35 @@ public class ArrayStorage {
 
     public void save(Resume r) {
         if (size == storage.length) {// if no more place in storage
-            System.out.println("Out of bound!");
+            System.out.println("ERROR : Out of bound!");
             return;
         }
-        for (int i = 0; i < size; i++) {
-            if (r.getUuid().equals(storage[i].getUuid())) {
-                return; //such uuid already in storage
-            }
+        int index = findResumeIndex(r.getUuid());
+        if (index != -1) {
+            System.out.println(" ERROR : uuid  already in storage!");
+            return;
         }
         storage[size] = r;
         size++;
     }
 
     public Resume get(String uuid) {
-        for (int i = 0; i < size; i++) {
-            if (uuid.equals(storage[i].getUuid())) {
-                return storage[i];
-            }
+        int index = findResumeIndex(uuid);
+        if (index > -1) {
+            return storage[index];
+        } else {
+            System.out.println(" ERROR :No such uuid in storage!");
         }
-        return null; //no resume with such uuid
+        return null;
     }
 
     public void delete(String uuid) {
-        for (int i = 0; i < size; i++) {
-            if (uuid.equals(storage[i].getUuid())) {
-                storage[i] = storage[size - 1];
-                storage[size - 1] = null;
-                size--;
-                break;
-            }
-        }
+        int index = findResumeIndex(uuid);
+        if (index > -1) {
+            storage[index] = storage[size - 1];
+            storage[size - 1] = null;
+            size--;
+        } else System.out.println(" ERROR :No such uuid in storage!");
     }
 
     /**
@@ -64,5 +63,14 @@ public class ArrayStorage {
 
     public int size() {
         return size;
+    }
+
+    public int findResumeIndex(String uuid) { //return resume with such uuid in storage if present
+        for (int i = 0; i < size; i++) {         //if not present return -1
+            if (uuid.equals(storage[i].getUuid())) {
+                return i;
+            }
+        }
+        return -1;
     }
 }
