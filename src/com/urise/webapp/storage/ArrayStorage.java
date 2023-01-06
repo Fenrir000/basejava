@@ -22,8 +22,7 @@ public class ArrayStorage {
             System.out.println("ERROR : Out of bound!");
             return;
         }
-        int index = findResumeIndex(r.getUuid());
-        if (index != -1) {
+        if (findResumeIndex(r.getUuid()) != -1) {
             System.out.println("ERROR : uuid + " + r.getUuid() + " already in storage!");
             return;
         }
@@ -31,6 +30,13 @@ public class ArrayStorage {
         size++;
     }
 
+    public void update(Resume r) {
+        int index = findResumeIndex(r.getUuid());
+        if (index == -1) {
+            System.out.println("ERROR :No " + r.getUuid() + " uuid in storage!");
+            return;
+        } else storage[index] = r;
+    }
 
     public Resume get(String uuid) {
         int index = findResumeIndex(uuid);
