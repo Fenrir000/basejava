@@ -24,19 +24,20 @@ public class ArrayStorage {
         }
         int index = findResumeIndex(r.getUuid());
         if (index != -1) {
-            System.out.println(" ERROR : uuid  already in storage!");
+            System.out.println("ERROR : uuid + " + r.getUuid() + " already in storage!");
             return;
         }
         storage[size] = r;
         size++;
     }
 
+
     public Resume get(String uuid) {
         int index = findResumeIndex(uuid);
         if (index > -1) {
             return storage[index];
         } else {
-            System.out.println(" ERROR :No such uuid in storage!");
+            System.out.println("ERROR :No " + uuid + " uuid in storage!");
         }
         return null;
     }
@@ -47,7 +48,7 @@ public class ArrayStorage {
             storage[index] = storage[size - 1];
             storage[size - 1] = null;
             size--;
-        } else System.out.println(" ERROR :No such uuid in storage!");
+        } else System.out.println("ERROR :No " + uuid + " uuid in storage!");
     }
 
     /**
