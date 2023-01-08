@@ -9,33 +9,33 @@ import java.util.Arrays;
  */
 
 public class ArrayStorage {
-    private Resume[] storage = new Resume[10000];
+    private final static int STORAGE_LIMIT = 10000;
+    private final Resume[] storage = new Resume[STORAGE_LIMIT];
     private int size;
 
     public void clear() {
-        Arrays.fill(storage,null);
+        Arrays.fill(storage, null);
         size = 0;
     }
 
     public void save(Resume r) {
-        if (size == storage.length) {// if no more place in storage
-            System.out.println("ERROR : Out of bound!");
-            return;
-        }
         if (findResumeIndex(r.getUuid()) != -1) {
             System.out.println("ERROR : uuid + " + r.getUuid() + " already in storage!");
-            return;
+        } else if (size == storage.length) {// if no more place in storage
+            System.out.println("ERROR : Out of bound!");
+        } else {
+            storage[size] = r;
+            size++;
         }
-        storage[size] = r;
-        size++;
     }
 
     public void update(Resume r) {
         int index = findResumeIndex(r.getUuid());
         if (index == -1) {
             System.out.println("ERROR :No " + r.getUuid() + " uuid in storage!");
-            return;
-        } else storage[index] = r;
+        } else {
+            storage[index] = r;
+        }
     }
 
     public Resume get(String uuid) {
@@ -44,8 +44,8 @@ public class ArrayStorage {
             return storage[index];
         } else {
             System.out.println("ERROR :No " + uuid + " uuid in storage!");
+            return null;
         }
-        return null;
     }
 
     public void delete(String uuid) {
@@ -54,7 +54,9 @@ public class ArrayStorage {
             storage[index] = storage[size - 1];
             storage[size - 1] = null;
             size--;
-        } else System.out.println("ERROR :No " + uuid + " uuid in storage!");
+        } else {
+            System.out.println("ERROR :No " + uuid + " uuid in storage!");
+        }
     }
 
     /**
