@@ -3,6 +3,8 @@ package com.urise.webapp;
 import com.urise.webapp.model.Resume;
 import com.urise.webapp.storage.ArrayStorage;
 
+import java.util.Arrays;
+
 /**
  * Test for your com.urise.webapp.storage.ArrayStorage implementation
  */
@@ -10,6 +12,7 @@ public class MainTestArrayStorage {
     static final ArrayStorage ARRAY_STORAGE = new ArrayStorage();
 
     public static void main(String[] args) {
+        System.out.println(Arrays.binarySearch(new int[]{1,2,3,4},2));
         Resume r1 = new Resume();
         r1.setUuid("uuid1");
         Resume r2 = new Resume();

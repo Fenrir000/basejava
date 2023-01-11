@@ -15,12 +15,12 @@ public class SortedArrayStorage extends AbstractArrayStorage {
      */
 
     @Override
-    protected void properElementRemove(int index) {
+    protected void removeResume(int index) {
         System.arraycopy(storage, index + 1, storage, index, size - index - 1);
     }
 
     @Override
-    protected void insertElement(Resume r, int indexOfInsertion) {
+    protected void insertResume(Resume r, int indexOfInsertion) {
         indexOfInsertion = -indexOfInsertion - 1;
         System.arraycopy(storage, indexOfInsertion, storage, indexOfInsertion + 1, size() - indexOfInsertion);
         storage[indexOfInsertion] = r;

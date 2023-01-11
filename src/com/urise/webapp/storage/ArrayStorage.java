@@ -13,11 +13,11 @@ public class ArrayStorage extends AbstractArrayStorage {
      * @return array, contains only Resumes in storage (without null)
      */
 
-    protected void insertElement(Resume r, int indexOfInsertion) {
+    protected void insertResume(Resume r, int indexOfInsertion) {
         storage[size] = r;
     }
 
-    protected void properElementRemove(int index) {
+    protected  void removeResume(int index) {
         storage[index] = storage[size - 1];
         storage[size - 1] = null;
         size--;
