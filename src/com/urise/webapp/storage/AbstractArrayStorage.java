@@ -1,5 +1,8 @@
 package com.urise.webapp.storage;
 
+import com.urise.webapp.exception.ExistStorageException;
+import com.urise.webapp.exception.NotExistStorageException;
+import com.urise.webapp.exception.StorageException;
 import com.urise.webapp.model.Resume;
 
 import java.util.Arrays;
@@ -9,7 +12,7 @@ import java.util.Arrays;
  */
 
 public abstract class AbstractArrayStorage implements Storage {
-    protected final static int STORAGE_LIMIT = 100000;
+    protected final static int STORAGE_LIMIT = 10000;
     protected final Resume[] storage = new Resume[STORAGE_LIMIT];
     protected int size;
 
@@ -18,45 +21,45 @@ public abstract class AbstractArrayStorage implements Storage {
         size = 0;
     }
 
-    public final void save(Resume r) {
+    public final void save(Resume r) {// Template method using findResumeIndex() and  insertResume() that is different in subclasses
         int index = findResumeIndex(r.getUuid());
         if (index >= 0) {
-            System.out.println("ERROR : uuid  " + r.getUuid() + " already in storage!");
+            throw new ExistStorageException(r.getUuid());
         } else if (size == storage.length) {// if no more place in storage
-            System.out.println("ERROR : Out of bound!");
+            throw new StorageException("ERROR : Out of bound!", r.getUuid());
         } else {
             insertResume(r, index);
             size++;
         }
     }
 
-    public final void update(Resume r) {
+    public final void update(Resume r) {// Template method using findResumeIndex() that is different in subclasses
         int index = findResumeIndex(r.getUuid());
-        if (index == -1) {
-            System.out.println("ERROR :No " + r.getUuid() + " uuid in storage!");
+        if (index < 0) {
+            throw new NotExistStorageException(r.getUuid());
         } else {
             storage[index] = r;
         }
     }
 
-    public final Resume get(String uuid) {
+    public final Resume get(String uuid) {// Template method using findResumeIndex()  that is different in subclasses
         int index = findResumeIndex(uuid);
         if (index > -1) {
             return storage[index];
         } else {
-            System.out.println("ERROR :No " + uuid + " uuid in storage!");
-            return null;
+            throw new NotExistStorageException(uuid);
         }
     }
 
-    public final void delete(String uuid) {
+    public final void delete(String uuid) {// Template method using findResumeIndex() and removeResume() that is different in subclasses
         int index = findResumeIndex(uuid);
         if (index >= 0) {
             removeResume(index);
             storage[size - 1] = null;
             size--;
         } else {
-            System.out.println("ERROR :No " + uuid + " uuid in storage!");
+            throw new NotExistStorageException(uuid);
+
         }
     }
 
@@ -71,9 +74,9 @@ public abstract class AbstractArrayStorage implements Storage {
         return size;
     }
 
-    protected abstract int findResumeIndex(String uuid);
+    protected abstract int findResumeIndex(String uuid); // primitive operation that is overrided in subclasses
 
-    protected abstract void removeResume(int index);
+    protected abstract void removeResume(int index);// primitive operation that is overrided in subclasses
 
-    protected abstract void insertResume(Resume r, int indexOfInsertion);
+    protected abstract void insertResume(Resume r, int indexOfInsertion);// primitive operation that is overrided in subclasses
 }

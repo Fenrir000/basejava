@@ -17,10 +17,8 @@ public class ArrayStorage extends AbstractArrayStorage {
         storage[size] = r;
     }
 
-    protected  void removeResume(int index) {
+    protected void removeResume(int index) {
         storage[index] = storage[size - 1];
-        storage[size - 1] = null;
-        size--;
     }
 
     protected int findResumeIndex(String uuid) { //return resume with such uuid in storage if present
